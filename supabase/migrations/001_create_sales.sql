@@ -20,6 +20,7 @@ create index if not exists ventas_created_at_idx on public.ventas (created_at de
 alter table public.ventas enable row level security;
 revoke all on table public.ventas from anon;
 grant select, insert on table public.ventas to authenticated;
+grant select on table public.ventas to service_role;
 
 drop policy if exists "Usuarios autenticados consultan ventas" on public.ventas;
 create policy "Usuarios autenticados consultan ventas"
