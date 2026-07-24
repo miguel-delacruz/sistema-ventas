@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>POPEY GROUP – Iniciar sesión</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif;height:100vh;display:flex;overflow:hidden}
+
+/* LEFT PANEL */
+.left{width:45%;background:#0d2030;display:flex;flex-direction:column;padding:2rem 2.5rem;position:relative}
+.logo{display:flex;align-items:center;gap:0.5rem;color:#fff;user-select:none}
+.logo svg{width:26px;height:26px;flex-shrink:0}
+.logo-text{font-size:0.68rem;font-weight:700;letter-spacing:0.08em;line-height:1.3;color:#fff}
+.left-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.5rem}
+.left-title{color:#fff;font-size:1.7rem;font-weight:300;letter-spacing:-0.01em}
+
+/* RIGHT PANEL */
+.right{width:55%;background:#f4f4f0;display:flex;align-items:center;justify-content:center;padding:2rem}
+.form-box{width:100%;max-width:360px}
+h1{font-size:1.5rem;font-weight:600;color:#1a1a1a;margin-bottom:1.75rem}
+.field{margin-bottom:1.1rem}
+label{display:block;font-size:0.78rem;color:#666;margin-bottom:0.35rem;font-weight:500}
+input[type=text],input[type=password]{width:100%;padding:0.62rem 0.8rem;border:1px solid #d8d8d2;border-radius:6px;font-size:0.88rem;background:#fff;outline:none;transition:border-color .2s;color:#1a1a1a}
+input:focus{border-color:#2a7fc4;box-shadow:0 0 0 3px rgba(42,127,196,.1)}
+.pw-wrap{position:relative}
+.pw-wrap input{padding-right:2.6rem}
+.eye{position:absolute;right:0.7rem;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#999;font-size:1rem;line-height:1}
+.row-opts{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}
+.chk-lbl{display:flex;align-items:center;gap:0.4rem;font-size:0.78rem;color:#555;cursor:pointer;user-select:none}
+.chk-lbl input{accent-color:#2a7fc4;cursor:pointer}
+.forgot{font-size:0.78rem;color:#2a7fc4;text-decoration:none}
+.forgot:hover{text-decoration:underline}
+.btn-login{width:100%;padding:0.72rem;background:#2a7fc4;color:#fff;border:none;border-radius:6px;font-size:0.9rem;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:0.4rem;transition:background .2s;letter-spacing:.01em}
+.btn-login:hover{background:#1f6aab}
+.error{display:none;background:#fff2f2;border:1px solid #f5c2c2;color:#c0392b;padding:0.6rem 0.8rem;border-radius:6px;font-size:0.8rem;margin-bottom:1rem}
+.error.show{display:block}
+</style>
+</head>
+<body>
+
+<div class="left">
+  <div class="logo">
+    <svg viewBox="0 0 26 26" fill="none">
+      <polygon points="13,1 25,13 13,25 1,13" fill="white"/>
+    </svg>
+    <div class="logo-text">POPEY<br>GROUP</div>
+  </div>
+
+  <div class="left-body">
+    <p class="left-title">Sistema de ventas</p>
+
+    <!-- Isometric chart illustration -->
+    <svg viewBox="0 0 300 230" width="300" height="230" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Base platform shadow -->
+      <ellipse cx="150" cy="196" rx="118" ry="22" fill="#071624" opacity=".45"/>
+      <!-- Platform face top -->
+      <path d="M38 168 L150 195 L262 168 L150 141Z" fill="#122d42"/>
+      <!-- Platform face left -->
+      <path d="M38 168 L38 178 L150 205 L150 195Z" fill="#0d2030"/>
+      <!-- Platform face right -->
+      <path d="M262 168 L262 178 L150 205 L150 195Z" fill="#0a1a28"/>
+
+      <!-- Grid dots on platform -->
+      <circle cx="100" cy="170" r="1.5" fill="#1e4060" opacity=".8"/>
+      <circle cx="125" cy="176" r="1.5" fill="#1e4060" opacity=".8"/>
+      <circle cx="150" cy="182" r="1.5" fill="#1e4060" opacity=".8"/>
+      <circle cx="175" cy="176" r="1.5" fill="#1e4060" opacity=".8"/>
+      <circle cx="200" cy="170" r="1.5" fill="#1e4060" opacity=".8"/>
+      <circle cx="112" cy="163" r="1.5" fill="#1e4060" opacity=".6"/>
+      <circle cx="137" cy="169" r="1.5" fill="#1e4060" opacity=".6"/>
+      <circle cx="162" cy="163" r="1.5" fill="#1e4060" opacity=".6"/>
+      <circle cx="187" cy="157" r="1.5" fill="#1e4060" opacity=".6"/>
+
+      <!-- BAR 1 – teal, short-left -->
+      <path d="M70 145 L70 168 L95 181 L95 158Z" fill="#2ab8b0"/>
+      <path d="M70 145 L95 158 L115 148 L90 135Z" fill="#3ecfc7"/>
+      <path d="M90 135 L115 148 L115 168 L90 155Z" fill="#1d9990"/>
+
+      <!-- BAR 2 – teal, medium -->
+      <path d="M95 128 L95 168 L120 181 L120 141Z" fill="#2ab8b0"/>
+      <path d="M95 128 L120 141 L140 131 L115 118Z" fill="#3ecfc7"/>
+      <path d="M115 118 L140 131 L140 168 L115 155Z" fill="#1d9990"/>
+
+      <!-- BAR 3 – salmon, tallest (center) -->
+      <path d="M130 88 L130 168 L155 181 L155 101Z" fill="#e5896e"/>
+      <path d="M130 88 L155 101 L175 91 L150 78Z" fill="#f2a088"/>
+      <path d="M150 78 L175 91 L175 168 L150 155Z" fill="#c06a55"/>
+
+      <!-- Arrow on bar 3 -->
+      <path d="M178 52 L193 38 L208 52" stroke="#e5896e" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="193" y1="38" x2="193" y2="91" stroke="#e5896e" stroke-width="3" stroke-linecap="round"/>
+
+      <!-- BAR 4 – teal, medium-right -->
+      <path d="M165 118 L165 168 L190 181 L190 131Z" fill="#2ab8b0"/>
+      <path d="M165 118 L190 131 L210 121 L185 108Z" fill="#3ecfc7"/>
+      <path d="M185 108 L210 121 L210 165 L185 152Z" fill="#1d9990"/>
+
+      <!-- BAR 5 – teal, short-right -->
+      <path d="M200 148 L200 168 L225 181 L225 161Z" fill="#2ab8b0"/>
+      <path d="M200 148 L225 161 L245 151 L220 138Z" fill="#3ecfc7"/>
+      <path d="M220 138 L245 151 L245 168 L220 155Z" fill="#1d9990"/>
+
+      <!-- Small decorative dots -->
+      <circle cx="55" cy="150" r="3.5" fill="#e5896e" opacity=".5"/>
+      <circle cx="255" cy="155" r="3" fill="#2ab8b0" opacity=".6"/>
+    </svg>
+  </div>
+</div>
+
+<div class="right">
+  <div class="form-box">
+    <h1>Iniciar sesión</h1>
+
+    <div class="error" id="err">Usuario o contraseña incorrectos. Intenta de nuevo.</div>
+
+    <div class="field">
+      <label for="user">Correo electrónico</label>
+      <input type="text" id="user" placeholder="admin@popeygroup.com" autocomplete="username"/>
+    </div>
+
+    <div class="field">
+      <label for="pass">Contraseña</label>
+      <div class="pw-wrap">
+        <input type="password" id="pass" placeholder="••••••••••••" autocomplete="current-password"/>
+        <button class="eye" type="button" onclick="togglePw()" title="Mostrar contraseña">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <button class="btn-login" id="loginButton">
+      Ingresar
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M5 12h14M12 5l7 7-7 7"/>
+      </svg>
+    </button>
+  </div>
+</div>
+
+<script>
+function togglePw(){const p=document.getElementById('pass');p.type=p.type==='password'?'text':'password'}
+</script>
+<script type="module" src="/js/login.js"></script>
+</body>
+</html>
