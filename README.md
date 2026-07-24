@@ -115,7 +115,7 @@ El formulario:
 
 La razón social, RUC y dirección deben corresponder al proveedor real. Las reclamaciones deben responderse en un máximo improrrogable de 15 días hábiles y conservarse al menos dos años.
 
-Los datos de POPEY GROUP SRL incluidos por defecto son ficticios y están señalados como demostración. Antes de utilizar el sistema comercialmente deben sustituirse por datos reales y configurarse un remitente de correo verificado.
+Antes de utilizar el sistema comercialmente, los datos del proveedor deben verificarse y `reclamos@popeygroup.com` debe configurarse como remitente autorizado en el servicio de correo.
 
 ## Evidencias recomendadas
 

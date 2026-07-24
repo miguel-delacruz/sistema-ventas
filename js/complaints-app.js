@@ -4,7 +4,7 @@ const provider = {
   name: import.meta.env.VITE_PROVIDER_LEGAL_NAME || 'POPEY GROUP SRL',
   ruc: import.meta.env.VITE_PROVIDER_RUC || '20999999990',
   address: import.meta.env.VITE_PROVIDER_ADDRESS || 'Calle 7 de Enero 657, Chiclayo, Lambayeque, Perú',
-  email: import.meta.env.VITE_PROVIDER_CONTACT_EMAIL || 'reclamos@popeygroup.example'
+  email: import.meta.env.VITE_PROVIDER_CONTACT_EMAIL || 'reclamos@popeygroup.com'
 };
 
 document.getElementById('providerName').textContent = provider.name;
