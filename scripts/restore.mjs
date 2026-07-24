@@ -15,4 +15,12 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SER
 });
 const { error } = await supabase.from('ventas').upsert(backup.ventas, { onConflict: 'id' });
 if (error) throw error;
-console.info(`Restauradas ${backup.ventas.length} ventas desde ${file}`);
+if (Array.isArray(backup.reclamaciones) && backup.reclamaciones.length) {
+  const { error: complaintsError } = await supabase
+    .from('reclamaciones')
+    .upsert(backup.reclamaciones, { onConflict: 'id' });
+  if (complaintsError) throw complaintsError;
+}
+console.info(
+  `Restauradas ${backup.ventas.length} ventas y ${backup.reclamaciones?.length ?? 0} reclamaciones desde ${file}`
+);

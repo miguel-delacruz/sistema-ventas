@@ -13,6 +13,11 @@ export default async function handler(request, response) {
   try {
     const { data: sales, error: readError } = await supabase.from('ventas').select('*').order('created_at');
     if (readError) throw readError;
+    const { data: complaints, error: complaintsError } = await supabase
+      .from('reclamaciones')
+      .select('*')
+      .order('created_at');
+    if (complaintsError) throw complaintsError;
 
     const bucket = 'backups';
     const { error: bucketError } = await supabase.storage.createBucket(bucket, { public: false });
@@ -20,7 +25,13 @@ export default async function handler(request, response) {
 
     const timestamp = new Date().toISOString().replaceAll(':', '-');
     const fileName = `ventas-${timestamp}.json`;
-    const payload = JSON.stringify({ generated_at: new Date().toISOString(), count: sales.length, ventas: sales }, null, 2);
+    const payload = JSON.stringify({
+      generated_at: new Date().toISOString(),
+      ventas_count: sales.length,
+      reclamaciones_count: complaints.length,
+      ventas: sales,
+      reclamaciones: complaints
+    }, null, 2);
     const { error: uploadError } = await supabase.storage
       .from(bucket)
       .upload(fileName, payload, { contentType: 'application/json', upsert: false });
@@ -33,8 +44,19 @@ export default async function handler(request, response) {
     const expired = (files ?? []).slice(7).map((file) => file.name);
     if (expired.length) await supabase.storage.from(bucket).remove(expired);
 
-    console.info(JSON.stringify({ level: 'info', event: 'backup_completed', file: fileName, records: sales.length }));
-    return response.status(200).json({ status: 'ok', file: fileName, records: sales.length });
+    console.info(JSON.stringify({
+      level: 'info',
+      event: 'backup_completed',
+      file: fileName,
+      sales: sales.length,
+      complaints: complaints.length
+    }));
+    return response.status(200).json({
+      status: 'ok',
+      file: fileName,
+      sales: sales.length,
+      complaints: complaints.length
+    });
   } catch (error) {
     console.error(JSON.stringify({ level: 'error', event: 'backup_failed', reason: error.message }));
     return response.status(500).json({ status: 'error', message: 'Backup failed' });

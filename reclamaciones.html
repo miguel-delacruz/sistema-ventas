@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POPEY GROUP – Libro de Reclamaciones</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--navy:#0d2030;--teal:#2ab8b0;--bg:#f2f4f6;--line:#dfe3e6;--muted:#6f7880;--danger:#b63737}
+    body{font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:#17212b;min-height:100vh}
+    header{height:68px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 max(24px,calc((100% - 980px)/2))}
+    .brand{display:flex;align-items:center;gap:10px;font-size:.75rem;font-weight:700;letter-spacing:.08em}
+    .brand-mark{width:22px;height:22px;background:#fff;transform:rotate(45deg)}
+    .back{color:#d9e4ea;text-decoration:none;font-size:.85rem}
+    .back:hover{color:#fff}
+    main{max-width:980px;margin:32px auto;padding:0 20px 48px}
+    .intro{display:flex;justify-content:space-between;gap:24px;margin-bottom:20px}
+    h1{font-size:1.8rem;color:var(--navy);margin-bottom:7px}
+    .intro p{color:var(--muted);font-size:.88rem;line-height:1.5;max-width:650px}
+    .deadline{background:#e9f8f6;border:1px solid #bde8e3;border-radius:9px;color:#176a64;padding:11px 14px;font-size:.78rem;height:max-content;white-space:nowrap}
+    .provider{background:#fff;border-radius:10px;padding:14px 18px;margin-bottom:14px;border-left:4px solid var(--teal);font-size:.78rem;line-height:1.6;color:#46515a}
+    .provider strong{color:var(--navy)}
+    form,.receipt{background:#fff;border-radius:12px;padding:24px;box-shadow:0 3px 14px rgba(13,32,48,.05)}
+    fieldset{border:0;margin-bottom:24px}
+    legend{font-size:.95rem;font-weight:700;color:var(--navy);margin-bottom:13px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+    .full{grid-column:1/-1}
+    label{display:block;font-size:.75rem;font-weight:600;color:#4e5962;margin-bottom:5px}
+    .required{color:var(--danger)}
+    input,select,textarea{width:100%;border:1px solid var(--line);border-radius:7px;padding:10px 11px;font:inherit;font-size:.84rem;color:#17212b;background:#fff;outline:none}
+    input:focus,select:focus,textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(42,184,176,.1)}
+    textarea{min-height:95px;resize:vertical}
+    .type-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .type-card{display:block;border:1.5px solid var(--line);border-radius:9px;padding:13px;cursor:pointer;font-weight:400}
+    .type-card:has(input:checked){border-color:var(--teal);background:#f1fbfa}
+    .type-card input{width:auto;margin-right:7px;accent-color:var(--teal)}
+    .type-card strong{font-size:.84rem;color:var(--navy)}
+    .type-card small{display:block;color:var(--muted);font-size:.72rem;line-height:1.4;margin:5px 0 0 22px}
+    .minor-check,.consent{display:flex;gap:9px;align-items:flex-start;font-size:.77rem;color:#4d5860;line-height:1.45}
+    .minor-check input,.consent input{width:auto;margin-top:2px;accent-color:var(--teal)}
+    #representativeFields[hidden]{display:none}
+    .legal-note{background:#f7f8f9;border:1px solid var(--line);border-radius:8px;padding:13px;font-size:.73rem;line-height:1.5;color:#59636b;margin-bottom:14px}
+    .actions{display:flex;justify-content:flex-end;gap:10px}
+    button{border:0;border-radius:7px;padding:11px 20px;font-size:.84rem;font-weight:600;cursor:pointer}
+    .primary{background:var(--teal);color:#fff}
+    .primary:hover{background:#229f98}
+    .primary:disabled{opacity:.6;cursor:wait}
+    .secondary{background:#fff;color:var(--navy);border:1px solid var(--line)}
+    .error{display:none;background:#fff1f1;border:1px solid #efc2c2;color:#9d2929;border-radius:7px;padding:10px 12px;font-size:.78rem;margin-bottom:14px}
+    .error.show{display:block}
+    .honeypot{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+    .receipt{display:none}
+    .receipt.show{display:block}
+    .receipt-header{border-bottom:2px solid var(--navy);padding-bottom:14px;margin-bottom:18px}
+    .receipt-code{font-size:1.35rem;font-weight:800;color:var(--navy)}
+    .receipt-status{color:#16826f;font-size:.82rem;margin-top:4px}
+    .receipt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;font-size:.8rem}
+    .receipt-item{padding:7px 0;border-bottom:1px solid #eef0f2}
+    .receipt-item span{display:block;color:var(--muted);font-size:.68rem;margin-bottom:2px}
+    .receipt-item.full{grid-column:1/-1}
+    .email-warning{margin-top:14px;color:#8a5b00;background:#fff8df;padding:10px;border-radius:7px;font-size:.75rem}
+    @media(max-width:700px){.intro{display:block}.deadline{margin-top:12px;white-space:normal}.grid,.type-options,.receipt-grid{grid-template-columns:1fr}.full{grid-column:auto}form,.receipt{padding:18px}header{padding:0 20px}}
+    @media print{header,.intro,.provider,form,.receipt .actions,.email-warning{display:none!important}body,main{background:#fff;margin:0;padding:0}.receipt.show{display:block;box-shadow:none;padding:0}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand"><span class="brand-mark"></span><span>POPEY<br>GROUP</span></div>
+    <a class="back" href="index.html">← Volver al inicio</a>
+  </header>
+
+  <main>
+    <div class="intro">
+      <div>
+        <h1>Libro de Reclamaciones</h1>
+        <p>Registra una disconformidad relacionada con un producto, servicio o atención recibida. No necesitas iniciar sesión.</p>
+      </div>
+      <div class="deadline">Respuesta máxima: 15 días hábiles</div>
+    </div>
+
+    <div class="provider">
+      <strong id="providerName">POPEY GROUP SRL</strong> · RUC <span id="providerRuc">—</span>
+      <span style="margin-left:8px;color:#9a6500">Datos de demostración</span><br>
+      <span id="providerAddress">—</span> · <span id="providerEmail">—</span>
+    </div>
+
+    <form id="complaintForm" novalidate>
+      <div class="error" id="formError"></div>
+
+      <fieldset>
+        <legend>1. Tipo de solicitud</legend>
+        <div class="type-options">
+          <label class="type-card">
+            <input type="radio" name="tipo" value="Reclamo" checked>
+            <strong>Reclamo</strong>
+            <small>Disconformidad relacionada con un producto o servicio contratado.</small>
+          </label>
+          <label class="type-card">
+            <input type="radio" name="tipo" value="Queja">
+            <strong>Queja</strong>
+            <small>Malestar relacionado con la atención al público, no con el producto o servicio.</small>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>2. Datos del consumidor</legend>
+        <div class="grid">
+          <div class="full">
+            <label for="nombre">Nombres y apellidos <span class="required">*</span></label>
+            <input id="nombre" name="nombre" maxlength="150" required autocomplete="name">
+          </div>
+          <div>
+            <label for="tipo_documento">Tipo de documento <span class="required">*</span></label>
+            <select id="tipo_documento" name="tipo_documento" required>
+              <option>DNI</option><option>CE</option><option>Pasaporte</option>
+            </select>
+          </div>
+          <div>
+            <label for="documento">Número de documento <span class="required">*</span></label>
+            <input id="documento" name="documento" maxlength="20" required inputmode="numeric">
+          </div>
+          <div class="full">
+            <label for="domicilio">Domicilio <span class="required">*</span></label>
+            <input id="domicilio" name="domicilio" maxlength="250" required autocomplete="street-address">
+          </div>
+          <div>
+            <label for="telefono">Teléfono <span class="required">*</span></label>
+            <input id="telefono" name="telefono" maxlength="20" required autocomplete="tel">
+          </div>
+          <div>
+            <label for="email">Correo electrónico <span class="required">*</span></label>
+            <input id="email" name="email" type="email" maxlength="180" required autocomplete="email">
+          </div>
+          <div class="full">
+            <label class="minor-check"><input id="es_menor" name="es_menor" type="checkbox"> El consumidor es menor de edad</label>
+          </div>
+          <div class="full grid" id="representativeFields" hidden>
+            <div class="full">
+              <label for="representante_nombre">Nombre del padre, madre o representante <span class="required">*</span></label>
+              <input id="representante_nombre" name="representante_nombre" maxlength="150">
+            </div>
+            <div class="full">
+              <label for="representante_domicilio">Domicilio del representante <span class="required">*</span></label>
+              <input id="representante_domicilio" name="representante_domicilio" maxlength="250">
+            </div>
+            <div>
+              <label for="representante_telefono">Teléfono del representante <span class="required">*</span></label>
+              <input id="representante_telefono" name="representante_telefono" maxlength="20">
+            </div>
+            <div>
+              <label for="representante_email">Correo del representante <span class="required">*</span></label>
+              <input id="representante_email" name="representante_email" type="email" maxlength="180">
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>3. Producto o servicio</legend>
+        <div class="grid">
+          <div>
+            <label for="bien_tipo">Tipo <span class="required">*</span></label>
+            <select id="bien_tipo" name="bien_tipo"><option>Producto</option><option>Servicio</option></select>
+          </div>
+          <div>
+            <label for="monto">Monto pagado (USD) <span class="required">*</span></label>
+            <input id="monto" name="monto" type="number" min="0" step="0.01" value="0" required>
+          </div>
+          <div class="full">
+            <label for="bien_descripcion">Identificación del producto o servicio <span class="required">*</span></label>
+            <input id="bien_descripcion" name="bien_descripcion" maxlength="250" required placeholder="Ej.: EA Aurora MT5">
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>4. Detalle y pedido</legend>
+        <div class="grid">
+          <div class="full">
+            <label for="detalle">Detalle del reclamo o queja <span class="required">*</span></label>
+            <textarea id="detalle" name="detalle" maxlength="2000" required placeholder="Describe brevemente lo sucedido."></textarea>
+          </div>
+          <div class="full">
+            <label for="pedido">Pedido concreto <span class="required">*</span></label>
+            <textarea id="pedido" name="pedido" maxlength="1000" required placeholder="Indica qué solución solicitas."></textarea>
+          </div>
+          <div>
+            <label for="medio_respuesta">Medio de respuesta <span class="required">*</span></label>
+            <select id="medio_respuesta" name="medio_respuesta">
+              <option>Correo electrónico</option><option>Carta al domicilio</option>
+            </select>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="honeypot" aria-hidden="true">
+        <label for="website">Sitio web</label><input id="website" name="website" tabindex="-1" autocomplete="off">
+      </div>
+
+      <div class="legal-note">
+        La formulación de esta hoja no impide acudir a otras vías de solución ni constituye requisito previo para presentar una denuncia ante INDECOPI. La información será utilizada para gestionar y responder tu solicitud y se conservará por el plazo legal aplicable.
+      </div>
+
+      <label class="consent">
+        <input id="conformidad" name="conformidad" type="checkbox" required>
+        <span>Declaro que la información registrada es correcta y expreso mi conformidad con los términos de esta hoja de reclamación. <span class="required">*</span></span>
+      </label>
+
+      <div class="actions" style="margin-top:18px">
+        <button type="reset" class="secondary">Limpiar</button>
+        <button type="submit" class="primary" id="submitButton">Registrar hoja</button>
+      </div>
+    </form>
+
+    <section class="receipt" id="receipt" aria-live="polite">
+      <div class="receipt-header">
+        <div class="receipt-code" id="receiptCode"></div>
+        <div class="receipt-status">Hoja de reclamación registrada correctamente</div>
+      </div>
+      <div class="receipt-grid" id="receiptGrid"></div>
+      <div class="email-warning" id="emailWarning" hidden>
+        La hoja fue registrada, pero el envío de correo aún no está configurado. Usa “Imprimir o guardar PDF” para conservar tu copia.
+      </div>
+      <div class="legal-note" style="margin-top:16px">El proveedor responderá en un plazo máximo improrrogable de 15 días hábiles.</div>
+      <div class="actions">
+        <a href="index.html"><button class="secondary" type="button">Volver al inicio</button></a>
+        <button class="primary" type="button" onclick="window.print()">Imprimir o guardar PDF</button>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="/js/complaints-app.js"></script>
+</body>
+</html>
